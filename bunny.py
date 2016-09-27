@@ -23,9 +23,8 @@ def serve_js(path):
 
 @app.route("/sign_up/", methods=["GET", "POST"])
 def sign_up():
-    return "test"
     pattern = re.compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-    email = request.form["email"]
+    email = request.args.get("email")
 
     if pattern.match(email):
         return "success"
