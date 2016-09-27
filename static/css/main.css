@@ -1,0 +1,45 @@
+h1, h4 {
+    color: #555;
+}
+
+#content {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+#sign_up_left {
+    width: 70%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+#sign_up_right {
+    width: 30%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+#sign_up_input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 0 -2px;
+}
+
+.button {
+    cursor: pointer;
+    font-weight: 800;
+    color: #555;
+    font-size: 14px;
+    margin-top: 20px;
+    display: inline-block;
+    border-bottom: 1px solid #0a0;
+    float: right;
+}
