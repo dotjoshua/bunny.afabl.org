@@ -1,5 +1,6 @@
 from flask import Flask, request, send_from_directory
 import re
+import sqlite3
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ def serve_lib(path):
 def serve_js(path):
     return send_from_directory("static/js", path)
 
-@app.route("/sign_up/", methods=["GET", "POST"])
+@app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
     pattern = re.compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
     email = request.args.get("email")
