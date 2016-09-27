@@ -27,9 +27,20 @@ def sign_up():
     pattern = re.compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
     email = request.args.get("email")
 
+    result = "Error: bad email", 400
+
     if pattern.match(email):
-        return "success"
-    return "bad email"
+        conn = sqlite3.connect("db/bunny.db")
+        c = conn.cursor()
+        try:
+            c.execute("INSERT INTO sign_up (email) VALUES (?)", [email])
+        except sqlite3.IntegrityError:
+            pass
+        result = "success"
+        conn.commit()
+        conn.close()
+
+    return result
 
 if __name__ == "__main__":
     app.run()
