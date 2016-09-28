@@ -43,3 +43,10 @@ h1, h4 {
     border-bottom: 1px solid #0a0;
     float: right;
 }
+
+@media screen and (max-width: 800px) {
+    #sign_up_left {
+        width: 0;
+        display: none;
+    }
+}
