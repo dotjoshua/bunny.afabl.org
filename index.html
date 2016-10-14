@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chris Simpkins - Research</title>
+    <title>AFABL Programmer Study</title>
     <script src="lib/jsh/jsh.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" type="text/css" href="lib/jsh/jsh.css">
@@ -11,22 +11,118 @@
 </head>
 <body>
  <div id="content">
-     <div class="page jsh_transparent jsh_display_none" id="page_sign_up">
-         <table>
-             <tr>
-                 <td id="sign_up_left">
-                     <h1>about:</h1>
-                     Evaluating Benefits of Reinforcement Learning-Based Agent Programming.<br>
-                     <!-- <div id="more_info_button" class="button">more</div> -->
-                 </td>
-                 <td id="sign_up_right">
-                     <h4>Sign up to be notified when the study is ready:</h4>
-                     <input id="sign_up_input" type="email" placeholder="email">
-                     <div id="sign_up_button" class="button">sign up</div>
-                 </td>
-             </tr>
-         </table>
-     </div>
+    <div class="page jsh_transparent jsh_display_none" id="page_home">
+        <h1>Welcome</h1>
+        <div class="collapsed_text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius leo orci, vel tempor mauris porta at. Maecenas fermentum sodales urna a faucibus. Curabitur a nisi vel quam finibus posuere nec sit amet quam. Duis sed felis eget odio cursus consequat. Ut finibus nec turpis consequat congue. Pellentesque eros nunc, rhoncus sit amet tellus non, porta mattis augue. Suspendisse ac blandit ligula, faucibus eleifend felis. Maecenas feugiat urna et rutrum consectetur. Nunc vehicula molestie leo posuere sodales. Sed sed luctus urna. Sed dui mauris, condimentum quis est ac, porttitor accumsan nulla. Maecenas auctor facilisis felis, sit amet sodales ligula facilisis nec. Integer feugiat vestibulum ante eu vulputate.
+        </div>
+        <div id="sign_up_button" class="button">sign up</div>
+    </div>
+
+    <div class="page jsh_transparent jsh_display_none" id="page_consent_form">
+        <h1>Consent form</h1>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius leo orci, vel tempor mauris porta at. Maecenas fermentum sodales urna a faucibus. Curabitur a nisi vel quam finibus posuere nec sit amet quam. Duis sed felis eget odio cursus consequat. Ut finibus nec turpis consequat congue. Pellentesque eros nunc, rhoncus sit amet tellus non, porta mattis augue. Suspendisse ac blandit ligula, faucibus eleifend felis. Maecenas feugiat urna et rutrum consectetur. Nunc vehicula molestie leo posuere sodales. Sed sed luctus urna. Sed dui mauris, condimentum quis est ac, porttitor accumsan nulla. Maecenas auctor facilisis felis, sit amet sodales ligula facilisis nec. Integer feugiat vestibulum ante eu vulputate.
+        <input type="email" id="email_input" placeholder="email address (optional)">
+        <div id="agree_button" class="button">I agree</div>
+    </div>
+
+    <div class="page jsh_transparent jsh_display_none" id="page_survey">
+        <h1>Survey</h1>
+        <table id="survey_table">
+            <tr>
+                <td>
+                    <h4>What is your level of education?</h4>
+                </td>
+                <td>
+                    <select id="education">
+                        <option>Select</option>
+                        <option value="0">High School</option>
+                        <option value="1">Associate Degree or currently enrolled in Bachelor degree program</option>
+                        <option value="2">Bachelor Degree</option> 
+                        <option value="3">Master Degree</option>
+                        <option value="4">Doctoral Degree</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>What is your most applicable college major?</h4>
+                    <span class="caption">By "most applicable" we mean the major you are using most in your profession. For example, if you got a B.S. in electrical engineering and a M.S. in computer science and work as a software engineer, then your most applicable major is computer science.</span>
+                </td>
+                <td>
+                    <select id="major">
+                        <option>Select</option>
+                        <option value="0">Computer Science</option>
+                        <option value="1">Computer Engineering</option>
+                        <option value="2">Electrical Engineering</option>
+                        <option value="3">Other Technical (STEM)</option>
+                        <option value="4">Other Non-Technical</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Number of years of professional programming experience.</h4>
+                    <span class="caption">You may include years spent working on graduate research projects. Count a semester as .5 years.</span>
+                </td>
+                <td>
+                    <input id="work_experience" placeholder="Decimal Number (eg - 5.5)"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>What is the largest working program you have written, in terms of lines of code?</h4>
+                    <span class="caption">Base your estimate on the code you wrote yourself, not code written by others in a team-developed program.</span>
+                </td>
+                <td>
+                    <select id="code_experience">
+                        <option>Select</option>
+                        <option value="0">~100 lines of code</option>
+                        <option value="1">~1000 lines of code</option>
+                        <option value="2">~10,000 lines of code</option>
+                        <option value="3">50,000+ lines of code</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>How proficient are you at game/agent programming?</h4>
+                </td>
+                <td>
+                    <select id="game_agent_proficiency">
+                        <option>Select</option>
+                        <option value="0">Not proficient</option>
+                        <option value="1">Familiar (have done tutorials or simple examples)</option>
+                        <option value="2">Proficient (can write programs with multiple objects and files)</option>
+                        <option value="3">Expert</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>How proficient are you at Scala programming?</h4>
+                </td>
+                <td>
+                    <select id="scala_proficiency">
+                        <option>Select</option>
+                        <option value="0">Not proficient</option>
+                        <option value="1">Familiar (have done tutorials or simple examples)</option>
+                        <option value="2">Proficient (can write programs with multiple objects and files)</option>
+                        <option value="3">Expert</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div id="submit_survey_button" class="button">submit</div>
+    </div>
+
+    <div class="page jsh_transparent jsh_display_none" id="page_afabl">
+        <h1>afabl things</h1>
+    </div>
+
+    <div class="page jsh_transparent jsh_display_none" id="page_scala">
+        <h1>scala things</h1>
+    </div>
  </div>
 </body>
 </html>

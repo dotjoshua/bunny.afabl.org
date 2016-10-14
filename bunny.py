@@ -1,6 +1,8 @@
 from flask import Flask, request, send_from_directory
 import re
 import sqlite3
+import random
+import json
 
 app = Flask(__name__)
 
@@ -22,25 +24,72 @@ def serve_lib(path):
 def serve_js(path):
     return send_from_directory("static/js", path)
 
-@app.route("/sign_up", methods=["GET", "POST"])
-def sign_up():
+@app.route("/survey_results/add/", methods=["POST", "GET"])
+def add_survey_result():
+    response = {}
+    response["success"] = True
+
+    conn = sqlite3.connect("db/bunny.sqlt")
+    c = conn.cursor()
+
+    participant_id = request.values["id"]
+    survey_inputs = ["education", "major", "work_experience", "code_experience", "game_agent_proficiency", "scala_proficiency"];
+    survey_results = [participant_id]
+    for survey_inputs in survey_inputs:
+        survey_results.append(request.values[survey_inputs])
+
+    if random.random() > 0.5:
+        response["destination"] = "afabl"
+    else:
+        response["destination"] = "scala"
+
+    try:
+        c.execute("UPDATE participants SET {} = 1 WHERE id=?".format(response["destination"]), [participant_id])
+        c.execute("INSERT INTO survey_results (id, education, major, work_experience, code_experience, game_agent_proficiency, scala_proficiency) VALUES (?, ?, ?, ?, ?, ?, ?)", survey_results)
+    except Exception as e:
+        response["success"] = False
+        response["error"] = str(e)
+
+    conn.commit()
+    conn.close()
+    return json.dumps(response)
+
+
+@app.route("/participants/add/", methods=["POST", "GET"])
+def add_participant():
+    response = {}
+    response["success"] = True
+
     pattern = re.compile("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-    email = request.args.get("email")
+    email = request.values["email"]
+    if not pattern.match(email) and len(email) > 0:
+        response["success"] = False
+        response["error"] = "bad email address"
+        return json.dumps(response)
 
-    result = "Error: bad email", 400
+    if email == "":
+        email = None
 
-    if pattern.match(email):
-        conn = sqlite3.connect("db/bunny.db")
-        c = conn.cursor()
-        try:
-            c.execute("INSERT INTO sign_up (email) VALUES (?)", [email])
-        except sqlite3.IntegrityError:
-            pass
-        result = "success"
-        conn.commit()
-        conn.close()
+    conn = sqlite3.connect("db/bunny.sqlt")
+    c = conn.cursor()
 
-    return result
+    try:
+        id_exists = 0
+        participant_id = "0" * 8
+        while id_exists == 0:
+            participant_id = (("0" * 8) + str(int(random.random() * 100000000)))[-8:]
+            c.execute("SELECT EXISTS(SELECT 1 FROM participants WHERE id=? LIMIT 1);", [participant_id])
+            id_exists = c.fetchone()
+
+        c.execute("INSERT INTO participants (id, email) VALUES (?, ?)", [participant_id, email])
+        response["participant_id"] = participant_id
+    except Exception as e:
+        response["success"] = False
+        response["error"] = str(e)
+
+    conn.commit()
+    conn.close()
+    return json.dumps(response)
 
 if __name__ == "__main__":
     app.run()
