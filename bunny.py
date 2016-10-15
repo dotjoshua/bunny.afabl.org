@@ -1,8 +1,11 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, Response
 import re
 import sqlite3
 import random
 import json
+import zipfile
+import os
+import io
 
 app = Flask(__name__)
 
@@ -27,6 +30,27 @@ def serve_lib(path):
 @app.route("/js/<path:path>")
 def serve_js(path):
     return send_from_directory("static/js", path)
+
+
+@app.route("/afabl_resources/", methods=["POST", "GET"])
+def get_afabl_resources():
+    participant_id = re.sub("([^0-9])", "", request.values["id"])[0:8]
+
+    zip_bytes = io.BytesIO()
+    zip_obj = zipfile.ZipFile(zip_bytes, "w")
+
+    afabl_path = "afabl_resources"
+    for root, dirs, files in os.walk(afabl_path):
+        for f in files:
+            file_path = os.path.join(root, f)
+            with open(file_path) as file_contents:
+                zip_obj.writestr(file_path, file_contents.read().replace("<--PARTICIPANT_ID--/>", str(participant_id)))
+
+    zip_obj.close()
+
+    results = zip_bytes.getvalue()
+    return Response(results, mimetype="text/plain", headers={"Content-Disposition": "attachment;filename=afabl_resources.zip"})
+
 
 @app.route("/survey_results/add/", methods=["POST", "GET"])
 def add_survey_result():
