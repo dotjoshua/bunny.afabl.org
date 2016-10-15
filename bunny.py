@@ -12,6 +12,10 @@ def index():
         result = index_file.read()
     return result
 
+@app.route("/results/<path:path>")
+def results(path):
+    return "403 Forbidden", 403
+
 @app.route("/css/<path:path>")
 def serve_css(path):
     return send_from_directory("static/css", path)
