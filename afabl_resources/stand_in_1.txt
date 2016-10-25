@@ -1,5 +1,0 @@
-resource 1
-<--PARTICIPANT_ID--/>
-<--PARTICIPANT_ID--/>
-<--PARTICIPANT_ID--/>
-test

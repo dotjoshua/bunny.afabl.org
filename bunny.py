@@ -6,6 +6,7 @@ import json
 import zipfile
 import os
 import io
+import time
 
 app = Flask(__name__)
 
@@ -15,21 +16,40 @@ def index():
         result = index_file.read()
     return result
 
-@app.route("/results/<path:path>")
-def results(path):
-    return "403 Forbidden", 403
 
 @app.route("/css/<path:path>")
 def serve_css(path):
     return send_from_directory("static/css", path)
 
+
 @app.route("/lib/<path:path>")
 def serve_lib(path):
     return send_from_directory("static/lib", path)
 
+
 @app.route("/js/<path:path>")
 def serve_js(path):
     return send_from_directory("static/js", path)
+
+
+@app.route('/results/<path:participant_id>', methods=['GET', 'POST'])
+def save_results(participant_id):
+    response = {}
+    response["success"] = True
+
+    participant_id = re.sub("([^0-9])", "", participant_id)[0:8]
+
+    if len(participant_id) == 0:
+        response["success"] = False
+        response["error"] = "Invalid participant ID"
+
+    data = request.data
+    filename = "results/submissions/{}/{}.json".format(participant_id, str(time.time()) + str(random.random()))
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    with open(filename, "wb") as json_file:
+        json_file.write(data)
+    
+    return json.dumps(response)
 
 
 @app.route("/afabl_resources/", methods=["POST", "GET"])
@@ -118,6 +138,7 @@ def add_participant():
     conn.commit()
     conn.close()
     return json.dumps(response)
+
 
 if __name__ == "__main__":
     app.run()
