@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, Response
+from flask import Flask, request, send_from_directory, Response, redirect
 import re
 import sqlite3
 import random
@@ -9,6 +9,14 @@ import io
 import time
 
 app = Flask(__name__)
+
+@app.errorhandler(403)
+def forbidden(e):
+    return redirect("/#403")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect("/#404")
 
 @app.route("/")
 def index():
@@ -30,6 +38,11 @@ def serve_lib(path):
 @app.route("/js/<path:path>")
 def serve_js(path):
     return send_from_directory("static/js", path)
+
+
+@app.route('/results/submissions/<path:participant_id>', methods=['GET', 'POST'])
+def hide_submissions(participant_id):
+    return redirect("/#403")
 
 
 @app.route('/results/<path:participant_id>', methods=['GET', 'POST'])
