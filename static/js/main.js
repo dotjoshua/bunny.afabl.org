@@ -13,6 +13,65 @@ function bind_handlers() {
 
     jsh.get("#email_input").addEventListener("keyup", email_input_keyup_handler);
     jsh.get("#work_experience").addEventListener("keyup", decimal_input_keyup_handler);
+
+    jsh.get("#submit_button").addEventListener("click", submit_handler);
+}
+
+function submit_handler(e) {
+	var file = jsh.get("#submit_input").files[0];
+
+    if (file) {
+    	var reader = new FileReader();
+		reader.onload = function(e) {
+	        var contents = e.target.result;
+	        submit_json(contents);
+	    };
+    	reader.readAsText(file);
+    } else { 
+    	alert("Failed to load file");
+    }
+}
+
+function submit_json(json_string) {
+	var error_message = null;
+	try {
+		var parsed_json = JSON.parse(json_string);
+	} catch (e) {
+		error_message = "This is not a valid json file.";
+	}
+
+	if (parsed_json["user_id"] == undefined) {
+		error_message = "This json file is not properly structured.";
+	}
+
+	if (error_message != null) {
+		new jsh.Alert({
+			message: error_message,
+			title: "Oops!"
+		}).open();
+		return;
+	}
+
+	var req = new XMLHttpRequest();
+    req.open("POST", "results/" + parsed_json["user_id"], true);
+
+  	req.setRequestHeader("Content-Type", "application/json");
+    req.onreadystatechange = function() {
+	    if (req.readyState == 4 && req.status == 200) {
+	    	new jsh.Alert({
+				message: "We have recieved your results.",
+				title: "Thank you!"
+			}).open();
+			jsh.pages["home"].open();
+	    } else {
+	    	new jsh.Alert({
+				message: "Something went wrong. Please try again.",
+				title: "Oops!"
+			}).open();
+	    }
+    };
+
+    req.send(json_string);
 }
 
 function sign_up_handler(e) {

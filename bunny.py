@@ -36,20 +36,23 @@ def serve_js(path):
 def save_results(participant_id):
     response = {}
     response["success"] = True
+    response_code = 200
 
     participant_id = re.sub("([^0-9])", "", participant_id)[0:8]
 
-    if len(participant_id) == 0:
+    data = request.data
+    json_data = json.loads(data.decode("utf-8"))
+    if len(participant_id) == 0 or int(json_data["user_id"]) != int(participant_id):
         response["success"] = False
         response["error"] = "Invalid participant ID"
+        response_code = 400
 
-    data = request.data
-    filename = "results/submissions/{}/{}.json".format(participant_id, str(time.time()) + str(random.random()))
+    filename = "results/submissions/{}/{}{}.json".format(participant_id, str(time.time()), str(random.random()))
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "wb") as json_file:
         json_file.write(data)
     
-    return json.dumps(response)
+    return json.dumps(response), response_code
 
 
 @app.route("/afabl_resources/", methods=["POST", "GET"])
