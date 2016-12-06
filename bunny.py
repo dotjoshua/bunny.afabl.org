@@ -78,6 +78,8 @@ def get_afabl_resources():
     afabl_path = "afabl_resources"
     for root, dirs, files in os.walk(afabl_path):
         for f in files:
+            if f == ".DS_Store":
+                continue
             file_path = os.path.join(root, f)
             with open(file_path) as file_contents:
                 zip_obj.writestr(file_path, file_contents.read().replace("<--PARTICIPANT_ID--/>", str(participant_id)))
