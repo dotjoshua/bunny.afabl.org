@@ -98,6 +98,10 @@ select {
     transition: opacity 0.5s;
 }
 
+#space {
+    height: 100px;
+}
+
 .empty_input {
     border-color: rgba(150, 0, 0, 0.2) !important;
     background: rgba(150, 0, 0, 0.2) !important;
