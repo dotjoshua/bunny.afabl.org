@@ -68,24 +68,36 @@ def save_results(participant_id):
     return json.dumps(response), response_code
 
 
-@app.route("/afabl_resources/", methods=["POST", "GET"])
+@app.route("/afabl_study/", methods=["POST", "GET"])
 def get_afabl_resources():
     participant_id = re.sub("([^0-9])", "", request.values["id"])[0:8]
 
     zip_bytes = io.BytesIO()
     zip_obj = zipfile.ZipFile(zip_bytes, "w")
 
-    afabl_path = "afabl_resources"
+    afabl_path = "afabl_study"
     for root, dirs, files in os.walk(afabl_path):
         for f in files:
+            if f == ".DS_Store":
+                continue
             file_path = os.path.join(root, f)
             with open(file_path) as file_contents:
-                zip_obj.writestr(file_path, file_contents.read().replace("<--PARTICIPANT_ID--/>", str(participant_id)))
+                zip_obj.writestr(os.path.join(root[len(afabl_path):], f), file_contents.read().replace("<--PARTICIPANT_ID--/>", str(participant_id)))
+
+
+
+    if request.values["type"] == "afabl":
+        readme_path = "afabl_readme_files/afabl_first.md"
+    else:
+        readme_path = "afabl_readme_files/scala_first.md"
+
+    with open(readme_path) as readme:
+        zip_obj.writestr("/README.md", readme.read())
 
     zip_obj.close()
 
     results = zip_bytes.getvalue()
-    return Response(results, mimetype="text/plain", headers={"Content-Disposition": "attachment;filename=afabl_resources.zip"})
+    return Response(results, mimetype="text/plain", headers={"Content-Disposition": "attachment;filename=afabl_study.zip"})
 
 
 @app.route("/survey_results/add/", methods=["POST", "GET"])
@@ -102,7 +114,17 @@ def add_survey_result():
     for survey_inputs in survey_inputs:
         survey_results.append(request.values[survey_inputs])
 
-    if random.random() > 0.5:
+    d = conn.cursor()
+    d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE scala")
+    scala_scala_proficiency = d.fetchone()[0]
+
+    d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE afabl")
+    afabl_scala_proficiency = d.fetchone()[0]
+
+    scala_scala_proficiency = scala_scala_proficiency if scala_scala_proficiency is not None else 0
+    afabl_scala_proficiency = afabl_scala_proficiency if afabl_scala_proficiency is not None else 0
+
+    if scala_scala_proficiency > afabl_scala_proficiency:
         response["destination"] = "afabl"
     else:
         response["destination"] = "scala"

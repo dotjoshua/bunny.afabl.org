@@ -15,6 +15,8 @@ function bind_handlers() {
     jsh.get("#work_experience").addEventListener("keyup", decimal_input_keyup_handler);
 
     jsh.get("#submit_button").addEventListener("click", submit_handler);
+    jsh.get("#afabl_study_download").addEventListener("click", get_study_files);
+    jsh.get("#scala_study_download").addEventListener("click", get_study_files);
 }
 
 function submit_handler(e) {
@@ -164,6 +166,12 @@ function validate_input(input, re) {
 	}
 }
 
+function get_study_files() {
+	var link = document.createElement("a");
+    link.href = jsh.str("/afabl_study/?id={}&type={}", participant_id, survey_destination);
+    link.click();
+}
+
 jsh.addEventListener("page_open", function(e) {
 	if (current_page && current_page.name != e.detail.page.name) {
 		current_page.div.classList.add("page_slide_out");
@@ -180,6 +188,11 @@ jsh.addEventListener("page_open", function(e) {
 	current_page = e.detail.page;
 
 	if (e.detail.page.name == "survey" && participant_id == null) {
+		jsh.pages["consent_form"].open();
+	}
+
+	if ((e.detail.page.name == "afabl" || e.detail.page.name == "scala") 
+			&& (participant_id == null || survey_destination == null)) {
 		jsh.pages["consent_form"].open();
 	}
 
