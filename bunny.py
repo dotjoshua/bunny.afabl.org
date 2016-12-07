@@ -116,10 +116,13 @@ def add_survey_result():
 
     d = conn.cursor()
     d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE scala")
-    scala_scala_proficiency = d.fetchone()
+    scala_scala_proficiency = d.fetchone()[0]
 
     d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE afabl")
-    afabl_scala_proficiency = d.fetchone()
+    afabl_scala_proficiency = d.fetchone()[0]
+
+    scala_scala_proficiency = scala_scala_proficiency if scala_scala_proficiency is not None else 0
+    afabl_scala_proficiency = afabl_scala_proficiency if afabl_scala_proficiency is not None else 0
 
     if scala_scala_proficiency > afabl_scala_proficiency:
         response["destination"] = "afabl"
