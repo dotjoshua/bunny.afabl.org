@@ -191,6 +191,11 @@ jsh.addEventListener("page_open", function(e) {
 		jsh.pages["consent_form"].open();
 	}
 
+	if ((e.detail.page.name == "afabl" || e.detail.page.name == "scala") 
+			&& (participant_id == null || survey_destination == null)) {
+		jsh.pages["consent_form"].open();
+	}
+
 	if (survey_destination && e.detail.page.name != survey_destination) {
 		jsh.pages[survey_destination].open();
 	}
