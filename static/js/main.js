@@ -199,4 +199,6 @@ jsh.addEventListener("page_open", function(e) {
 	if (survey_destination && e.detail.page.name != survey_destination) {
 		jsh.pages[survey_destination].open();
 	}
+
+	window.scrollTo(0, 0);
 });
