@@ -200,5 +200,7 @@ jsh.addEventListener("page_open", function(e) {
 		jsh.pages[survey_destination].open();
 	}
 
-	window.scrollTo(0, 0);
+	setTimeout(function() {
+		jsh.get("#content_wrapper").scrollTop = 0;
+	}, 1500);
 });
