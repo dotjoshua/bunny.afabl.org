@@ -16,7 +16,7 @@ function bind_handlers() {
 
     jsh.get("#submit_button").addEventListener("click", submit_handler);
     jsh.get("#afabl_study_download").addEventListener("click", get_study_files);
-    // jsh.get("#scala_study_download").addEventListener("click", get_study_files);
+    jsh.get("#scala_study_download").addEventListener("click", get_study_files);
 }
 
 function submit_handler(e) {
@@ -167,7 +167,9 @@ function validate_input(input, re) {
 }
 
 function get_study_files() {
-	window.location = jsh.str("/afabl_study/?id={}&type={}", participant_id, survey_destination);
+	var link = document.createElement("a");
+    link.href = jsh.str("/afabl_study/?id={}&type={}", participant_id, survey_destination);
+    link.click();
 }
 
 jsh.addEventListener("page_open", function(e) {

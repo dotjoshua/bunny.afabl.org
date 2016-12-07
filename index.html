@@ -200,7 +200,7 @@
 
                     <p>Download <span id="afabl_study_download">afabl_study.zip</span>.</p>
 
-                    <p>You will need Intellij IDEA with the Scala and Bunny plugins. Please follow the instructions found <a href="https://github.com/kjcartledge/Bunny/blob/master/GettingStarted.md">here</a> to ensure your enviroment is set up correctly for this study.</p>
+                    <p>You will need Intellij IDEA (Build #IC-162.2032.8) with the Scala plugin. You will also need to install the <a href="https://github.com/kjcartledge/Bunny/releases/download/1.0/Bunny.jar">Bunny plugin</a>. If you need help setting this up, please follow the instructions found <a href="https://github.com/kjcartledge/Bunny/blob/master/GettingStarted.md">here</a>.</p>
 
                     <p>You will place your code in four files:</p>
 
@@ -284,7 +284,95 @@ Enter number:</pre></div>
             </div>
 
             <div class="page jsh_transparent jsh_display_none" id="page_scala">
-                <h1>scala things</h1>
+                <div id="readme" class="readme blob instapaper_body">
+                    <article class="markdown-body entry-content" itemprop="text">
+                    <p>Thank you for participating in this study! Our goal is to quanitify the advantage or disadvantage of a shallowly embedded Scala DSL for agent programming. You will be helping to shape the future of AI language design.</p>
+
+                    <h2>Study Mechanics</h2>
+
+                    <p>Download <span id="scala_study_download">afabl_study.zip</span>.</p>
+
+                    <p>You will need Intellij IDEA (Build #IC-162.2032.8) with the Scala plugin. You will also need to install the <a href="https://github.com/kjcartledge/Bunny/releases/download/1.0/Bunny.jar">Bunny plugin</a>. If you need help setting this up, please follow the instructions found <a href="https://github.com/kjcartledge/Bunny/blob/master/GettingStarted.md">here</a>.</p>
+
+                    <p>You will place your code in four files:</p>
+
+                    <ul>
+                    <li><code>src/main/scala/org/afabl/study/AfablTask1.scala</code></li>
+                    <li><code>src/main/scala/org/afabl/study/AfablTask2.scala</code></li>
+                    <li><code>src/main/scala/org/afabl/study/scalaTask1.scala</code></li>
+                    <li><code>src/main/scala/org/afabl/study/scalaTask2.scala</code></li>
+                    </ul>
+
+                    <h3>You should complete these tasks in a specific order: <code>scalaTask1</code>, then <code>scalaTask2</code>, then <code>AfablTask1</code> and finally <code>AfablTask2</code>.</h3>
+
+                    <p>A build configuration has been provided for you named "Run." You simply have to click the green run arrow to test your work, which will bring up a menu like this:</p>
+
+                    <div class="highlight highlight-source-shell"><pre>Multiple main classes detected, <span class="pl-k">select</span> <span class="pl-smi">one</span> to run:
+
+ [1] org.afabl.study.AfablTask1
+ [2] org.afabl.study.AfablTask2
+ [3] org.afabl.study.ScalaTask1
+ [4] org.afabl.study.ScalaTask2
+
+Enter number:</pre></div>
+
+                    <p>Enter the number corresponding to the task you'd like to run, and your agent will get a score. When you're happy with that score you can move on to the next agent. Don't spend too much time trying to get a good score. This is not a competition. We're only trying to get feedback on programmers' experiences writing agent programs using a traditional programming language and using AFABL.</p>
+
+                    <p>When you have completed all four agents, in IntelliJ IDEA select <em>Tools</em> followed by <em>Bunny</em> then <em>Submit</em> to complete the study and submit your results.</p>
+
+                    <p>If this fails, you can use the <em>Export Results</em> option instead of <em>Submit</em> to generate a text file that can be submited at a later time.</p>
+
+                    <h2>Your Tasks</h2>
+
+                    <p>You will write four simple agents: two agents in Scala and two in AFABL (A Friendly Adaptive Behavior Language). Next we discuss the programming tasks then we discuss the mechanics of the study.</p>
+
+                    <h3>Task 1: Bunny-Food-Wolf</h3>
+
+                    <pre><code>+---+---+---+---+---+
+|   |   |   | W |   |
++---+---+---+---+---+
+| F |   |   |   |   |
++---+---+---+---+---+
+|   |   |   |   |   |
++---+---+---+---+---+
+|   | B |   |   |   |
++---+---+---+---+---+
+|   |   |   |   |   |
++---+---+---+---+---+
+                    </code></pre>
+
+                    <p>In the grid world above, the bunny (B) must pursue two goals simultaneously: find food (F) and avoid the wolf (W).  The bunny may move up, down, left, or right.  When it finds food it consumes the food and new food appears elsewhere in the grid world, when it meets the wolf it is eaten and "respawns" elsewhere.</p>
+
+                    <p>The bunny world works as follows:</p>
+
+                    <ul>
+                    <li>The bunny world is a discrete grid of cells.  The bunny, wolf, and food each occupy one cell.</li>
+                    <li>During each time step the bunny may move north, south, east, or west -- this is the bunny agent's action set.</li>
+                    <li>Every two time steps the wolf moves towards the bunny.</li>
+                    <li>If the bunny moves to the cell currently occupied by the food, the agent should be written to recognize this fact and give the agent an appropriate reward signal. In any case the simulation assumes food is "eaten" and new food appears elsewhere.</li>
+                    <li>If the wolf moves to the cell currently occupied by the bunny it eats the bunny and the bunny "respawns" in a new location.</li>
+                    </ul>
+
+                    <p>For Task 1 write an agent that controls the bunny. The bunny should meet the wolf as little as possible and eat as much food as possible.</p>
+
+                    <h3>Task 2: Mating Bunny</h3>
+
+                    <pre><code>+---+---+---+---+---+
+|   |   |   | W |   |
++---+---+---+---+---+
+| F |   |   |   |   |
++---+---+---+---+---+
+|   |   |   | M |   |
++---+---+---+---+---+
+|   | B |   |   |   |
++---+---+---+---+---+
+|   |   |   |   |   |
++---+---+---+---+---+
+                    </code></pre>
+
+                    <p>For Task 2 write a bunny agent for a world that is identical to the world in Task 1 except that the bunny must also find mates.  This world includes one static potential mate (M) that behaves similarly to the food.  When the bunny finds the potential mate, the simulation assumes that the bunny has "mated," the mate disappears, and another potential mate appears elsewhere.  The simulation runs as in Task 1, and the scorer additionally keeps track of how many mates the bunny finds.  As in Task 1, programmers were asked to write bunny agents that meet the wolf as little as possible, eat as much food as possible, and find as many mates as possible.</p>
+                    </article>
+                </div>
             </div>
 
             <div id="space"></div>
