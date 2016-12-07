@@ -15,6 +15,8 @@ function bind_handlers() {
     jsh.get("#work_experience").addEventListener("keyup", decimal_input_keyup_handler);
 
     jsh.get("#submit_button").addEventListener("click", submit_handler);
+    jsh.get("#afabl_study_download").addEventListener("click", get_study_files);
+    // jsh.get("#scala_study_download").addEventListener("click", get_study_files);
 }
 
 function submit_handler(e) {
@@ -162,6 +164,10 @@ function validate_input(input, re) {
 		input.style.background = "rgba(150, 0, 0, 0.2)";
 		return false;
 	}
+}
+
+function get_study_files() {
+	window.location = jsh.str("/afabl_study/?id={}&type={}", participant_id, survey_destination);
 }
 
 jsh.addEventListener("page_open", function(e) {
