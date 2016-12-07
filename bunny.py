@@ -115,10 +115,10 @@ def add_survey_result():
         survey_results.append(request.values[survey_inputs])
 
     d = conn.cursor()
-    d.execute("SELECT SUM(scala_proficiency) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE scala")
+    d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE scala")
     scala_scala_proficiency = d.fetchone()
 
-    d.execute("SELECT SUM(scala_proficiency) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE afabl")
+    d.execute("SELECT SUM(scala_proficiency + 1) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE afabl")
     afabl_scala_proficiency = d.fetchone()
 
     if scala_scala_proficiency > afabl_scala_proficiency:
