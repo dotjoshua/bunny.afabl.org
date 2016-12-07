@@ -55,7 +55,7 @@ def save_results(participant_id):
 
     data = request.data
     json_data = json.loads(data.decode("utf-8"))
-    if len(participant_id) == 0 or int(json_data["user_id"]) != int(participant_id):
+    if len(participant_id) == 0 or int(json_data["history"]["user_id"]) != int(participant_id):
         response["success"] = False
         response["error"] = "Invalid participant ID"
         response_code = 400
