@@ -64,7 +64,7 @@ def save_results(participant_id):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "wb") as json_file:
         json_file.write(data)
-    
+
     return json.dumps(response), response_code
 
 
@@ -179,4 +179,13 @@ def add_participant():
 
 
 if __name__ == "__main__":
+    import logging
+    from logging import FileHandler, Formatter
+    file_handler = FileHandler("bunny_errors.log")
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+    ))
+    app.logger.addHandler(file_handler)
     app.run()
