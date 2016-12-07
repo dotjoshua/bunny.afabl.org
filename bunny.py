@@ -114,7 +114,14 @@ def add_survey_result():
     for survey_inputs in survey_inputs:
         survey_results.append(request.values[survey_inputs])
 
-    if random.random() > 0.5:
+    d = conn.cursor()
+    d.execute("SELECT SUM(scala_proficiency) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE scala")
+    scala_scala_proficiency = d.fetchone()
+
+    d.execute("SELECT SUM(scala_proficiency) FROM participants INNER JOIN survey_results ON participants.id=survey_results.id WHERE afabl")
+    afabl_scala_proficiency = d.fetchone()
+
+    if scala_scala_proficiency > afabl_scala_proficiency:
         response["destination"] = "afabl"
     else:
         response["destination"] = "scala"
