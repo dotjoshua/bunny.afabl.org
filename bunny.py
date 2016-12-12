@@ -82,7 +82,11 @@ def get_afabl_resources():
                 continue
             file_path = os.path.join(root, f)
             with open(file_path) as file_contents:
-                zip_obj.writestr(os.path.join(root[len(afabl_path):], f), file_contents.read().replace("<--PARTICIPANT_ID--/>", str(participant_id)))
+                # Prepend "afabl_study" to zipfile path so the zip file creates
+                # an afabl_study/ directory when unzipped
+                zip_obj.writestr(os.path.join(root, f),
+                                 file_contents.read().replace("<--PARTICIPANT_ID--/>",
+                                                              str(participant_id)))
 
 
 
@@ -92,7 +96,7 @@ def get_afabl_resources():
         readme_path = "afabl_readme_files/scala_first.md"
 
     with open(readme_path) as readme:
-        zip_obj.writestr("/README.md", readme.read())
+        zip_obj.writestr("afabl_study/README.md", readme.read())
 
     zip_obj.close()
 
