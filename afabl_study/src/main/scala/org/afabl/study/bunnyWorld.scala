@@ -8,12 +8,11 @@ import scala.collection._
 case class Location(x: Int, y: Int)
 
 case class BunnyState(
-                       bunny: Location,
-                       wolf: Location,
-                       food: Location,
-                       mate: Location
-                     )
-
+  bunny: Location,
+  wolf: Location,
+  food: Location,
+  mate: Location
+)
 
 object BunnyAction extends Enumeration {
   val Up = Value("^")
@@ -85,7 +84,7 @@ class BunnyWorld(val width: Int = 5, val height: Int = 5)
   }
 
   def moveBunny(state: BunnyState,
-                intendedAction: BunnyAction.Value): Location = {
+    intendedAction: BunnyAction.Value): Location = {
     val action = if (random.nextDouble < .1) {
       BunnyAction(random.nextInt(BunnyAction.values.size))
     } else {
