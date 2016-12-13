@@ -81,14 +81,13 @@ def get_afabl_resources():
             if f == ".DS_Store":
                 continue
             file_path = os.path.join(root, f)
-            with open(file_path) as file_contents:
-                # Prepend "afabl_study" to zipfile path so the zip file creates
-                # an afabl_study/ directory when unzipped
-                zip_obj.writestr(os.path.join(root, f),
-                                 file_contents.read().replace("<--PARTICIPANT_ID--/>",
-                                                              str(participant_id)))
-
-
+            if f.endswith(".jar"):
+                zip_obj.write(os.path.join(root, f), file_path)
+            else:
+                with open(file_path) as file_contents:
+                    zip_obj.writestr(os.path.join(root, f),
+                                     file_contents.read().replace("<--PARTICIPANT_ID--/>",
+                                                                  str(participant_id)))
 
     if request.values["type"] == "afabl":
         readme_path = "afabl_readme_files/afabl_first.md"
